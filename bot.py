@@ -1,8 +1,27 @@
 import telebot
 from telebot import types
 import json, os, random
-from mods_data import MODS 
-TOKEN="9019511212:AAEoIKNd3eSOIYnSy8Nx6OU4Vv5NgyjLIC4"
+from mods_data import MODS
+from flask import Flask
+from threading import Thread
+
+# ===== Flask-сервер для Render (чтобы не ругался на закрытый порт) =====
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Бот работает! 🚜"
+
+def run_server():
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+    t = Thread(target=run_server)
+    t.start()
+# ======================================================================
+
+TOKEN = "9019511212:AAHSgTuFeKZ4CM16p6rLoY5wE8W0QlgOSUw"
 ADMIN_ID = 8338661047
 EXTRA_FILE = "mods_extra.json"
 
@@ -358,4 +377,5 @@ def echo(m):
     bot.send_message(m.chat.id, "🤔 Не понимаю. Напиши /help")
 
 print(f"🚀 Бот запущен! В базе {len(MODS)} модов.")
+keep_alive()
 bot.polling(none_stop=True)

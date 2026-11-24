@@ -21,7 +21,7 @@ def keep_alive():
     t.start()
 # =====================================
 
-TOKEN = "ща"
+TOKEN = "9019511212:AAHn2aFpHFCDpcx74hu-VLi_INchc5ZgFbM"
 ADMIN_ID = 8338661047
 EXTRA_FILE = "mods_extra.json"
 

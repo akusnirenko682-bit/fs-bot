@@ -5,7 +5,7 @@ from mods_data import MODS
 from flask import Flask
 from threading import Thread
 
-# ===== Flask-сервер для Render (чтобы не ругался на закрытый порт) =====
+# ===== Flask-сервер для Render =====
 app = Flask('')
 
 @app.route('/')
@@ -19,9 +19,9 @@ def run_server():
 def keep_alive():
     t = Thread(target=run_server)
     t.start()
-# ======================================================================
+# =====================================
 
-TOKEN = "9000725131:AAGcfu7EVA9wx59Rs7DQmoeNZjSVWTYiWBw"
+TOKEN = "ща"
 ADMIN_ID = 8338661047
 EXTRA_FILE = "mods_extra.json"
 
@@ -96,13 +96,13 @@ def start(m):
     text = (f"🚜 <b>Привет, фермер!</b>\n\n"
             f"📊 В базе: <b>{len(MODS)}</b> модов\n\n"
             "📌 <b>Поиск:</b>\n"
-            "/search <слово> — умный поиск\n"
+            "/search слово — умный поиск\n"
             "/random — случайный мод\n"
             "/stats — статистика\n\n"
             "📌 <b>Фильтры:</b>\n"
             "/fs20 • /fs22 • /tractors • /combines • /maps • /trucks\n\n"
             "📌 <b>Моё:</b>\n"
-            "/save <№> • /saved • /unsave <№>\n\n"
+            "/save номер • /saved • /unsave номер\n\n"
             "/help — все команды")
     bot.send_message(m.chat.id, text, parse_mode="HTML")
 
@@ -110,7 +110,7 @@ def start(m):
 def search_cmd(m):
     words = m.text.split()[1:]
     if not words:
-        bot.send_message(m.chat.id, "❗ Напиши: /search <слово>")
+        bot.send_message(m.chat.id, "❗ Напиши: /search запрос")
         return
     query = " ".join(words).lower()
     results = search_mods(query)
@@ -207,12 +207,12 @@ def new_mods(m):
 def save_mod(m):
     st = user_state.get(m.chat.id)
     if not st or not st.get("mods"):
-        bot.send_message(m.chat.id, "❗ Сначала найди моды через /search, потом /save <номер>")
+        bot.send_message(m.chat.id, "❗ Сначала найди моды через /search, потом /save номер")
         return
     try:
         mod = st["mods"][int(m.text.split()[1]) - 1]
     except Exception:
-        bot.send_message(m.chat.id, "❗ Напиши: /save <номер>")
+        bot.send_message(m.chat.id, "❗ Напиши: /save номер")
         return
     saved = user_state.setdefault(m.chat.id, {}).setdefault("saved", [])
     if any(s["name"] == mod["name"] for s in saved):
@@ -225,7 +225,7 @@ def save_mod(m):
 def show_saved(m):
     saved = user_state.get(m.chat.id, {}).get("saved", [])
     if not saved:
-        bot.send_message(m.chat.id, "📭 Избранное пусто. Добавляй через /save <номер>")
+        bot.send_message(m.chat.id, "📭 Избранное пусто. Добавляй через /save номер")
         return
     text = f"⭐ <b>Избранное</b> ({len(saved)}):\n\n"
     keyboard = types.InlineKeyboardMarkup()
@@ -241,7 +241,7 @@ def unsave_mod(m):
         removed = saved.pop(int(m.text.split()[1]) - 1)
         bot.send_message(m.chat.id, f"🗑 Удалено: <b>{removed['name']}</b>", parse_mode="HTML")
     except Exception:
-        bot.send_message(m.chat.id, "❗ Напиши: /unsave <номер>")
+        bot.send_message(m.chat.id, "❗ Напиши: /unsave номер")
 
 @bot.message_handler(commands=['version'])
 def by_version(m):
@@ -293,12 +293,12 @@ def all_versions(m):
 def similar(m):
     st = user_state.get(m.chat.id)
     if not st or not st.get("mods"):
-        bot.send_message(m.chat.id, "❗ Сначала /search, потом /similar <номер>")
+        bot.send_message(m.chat.id, "❗ Сначала /search, потом /similar номер")
         return
     try:
         mod = st["mods"][int(m.text.split()[1]) - 1]
     except Exception:
-        bot.send_message(m.chat.id, "❗ Напиши: /similar <номер>")
+        bot.send_message(m.chat.id, "❗ Напиши: /similar номер")
         return
     results = [x for x in MODS if x["cat"] == mod["cat"] and x["game"] == mod["game"] and x is not mod]
     if not results:
@@ -332,7 +332,7 @@ def del_mod(m):
         return
     query = " ".join(m.text.split()[1:]).lower()
     if not query:
-        bot.send_message(m.chat.id, "❗ Напиши: /delmod <название>")
+        bot.send_message(m.chat.id, "❗ Напиши: /delmod название")
         return
     to_del = [x for x in MODS if x.get("extra") and query in x["name"].lower()]
     if not to_del:

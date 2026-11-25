@@ -1,4 +1,4 @@
-MODS=[    # ===== FS20 МОДЫ (Android) со stmods.org =====
+  MODS=[    # ===== FS20 МОДЫ (Android) со stmods.org =====
     {"name": "Карта Совхоз ПИОНЕР v1.2.2", "game": "FS20", "cat": "Карта", "desc": "Русская карта с техникой: К-700, ДТ-75, ДОН-1500, Acros 595", "link": "https://www.google.com/search?q=site%3Astmods.org+Карта+Совхоз+ПИОНЕР+v1.2.2+FS20"},
     {"name": "МАЗ-537 с низкорамником", "game": "FS20", "cat": "Грузовик", "desc": "Советский тягач, выбор цвета и колёс", "link": "https://www.google.com/search?q=site%3Astmods.org+МАЗ-537+с+низкорамником+FS20"},
     {"name": "ВАЗ-2121 Нива", "game": "FS20", "cat": "Легковая", "desc": "86 л.с., макс. скорость 113 км/ч, звуки КПП", "link": "https://www.google.com/search?q=site%3Astmods.org+ВАЗ-2121+Нива+FS20"},
